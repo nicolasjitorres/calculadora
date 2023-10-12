@@ -10,13 +10,62 @@ function App() {
 
   const [input, setInput] = useState('');
 
+  const manejarSignos = (entrada) =>{
+    let valor = input[input.length-1];
+    switch (valor) {
+      case '+':
+      case '-':
+      case '*':
+      case '/':
+        if(input.length-1 === 0 && entrada !== '-'){
+          alert('No se puede ingresar un signo " * / + " al inicio');
+        }else {
+          let aux = input.substring(0,input.length-1);
+          setInput(aux + entrada);
+        }
+        break;
+    
+      default:
+        setInput(input + entrada);
+        break;
+    }
+  }
+
   const ingresar = (val) => {
-    setInput(input + val);
+    
+    switch(val){
+      case '+':
+      case '-':
+      case '*':
+      case '/':
+        if(input.length === 0 && val !== '-'){
+          alert('No se puede ingresar un signo " * / + " al inicio.');
+        }else {
+          manejarSignos(val);
+        }
+        break;
+
+      default: 
+        setInput(input + val);
+        break;
+    }
   };
 
   const calcularResultado = () => {
-    if (input) {
-      setInput(evaluate(input));
+    let inputStr = input.toString();
+    if (inputStr.includes('+') || (inputStr.includes('-') && inputStr.lastIndexOf('-') !== 0) || inputStr.includes('*') || inputStr.includes('/')) { 
+      switch(input[input.length-1]){
+        case '+':
+        case '-':
+        case '*':
+        case '/':
+        case '.':
+          alert('Deberias ingresar un numero luego del ultimo simbolo.')
+          break;
+        default:
+          setInput(evaluate(input));
+          break;
+      }
     }
   };
 
